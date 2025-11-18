@@ -1,5 +1,4 @@
 # web_app.py
-import os
 import threading
 import webbrowser
 from pathlib import Path
@@ -67,12 +66,9 @@ def index():
 
 
 def open_browser():
-    # Standard-Browser auf die lokale Seite schicken
     webbrowser.open("http://127.0.0.1:5000", new=1)
 
 
 if __name__ == "__main__":
-    # Browser nach kurzer Verzögerung öffnen
     threading.Timer(1.0, open_browser).start()
-    # Debug=False, damit es später bei PyInstaller sauber läuft
     app.run(host="127.0.0.1", port=5000, debug=False)
