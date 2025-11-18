@@ -74,7 +74,7 @@ def download_images(
     naming_scheme:
         - "original": Original-Dateinamen, Duplikate werden durchnummeriert
         - "slugged":  seitenname-001.jpg, seitenname-002.jpg, ...
-    Rückgabe: dict mit ein paar Infos für die GUI.
+    Rückgabe: dict mit Infos für die GUI.
     """
     if not page_url.startswith("http"):
         raise DownloadError("Bitte eine gültige URL mit http/https angeben.")
@@ -125,10 +125,9 @@ def download_images(
                 f.write(resp.content)
 
             downloaded.append(str(dest_path))
-            # kleine Pause, um Server nicht zu stressen
-            time.sleep(0.05)
+            time.sleep(0.05)  # Server nicht zu hart stressen
 
-        except Exception as e:  # bewusst breit, damit nichts hart crasht
+        except Exception as e:
             errors.append((img_url, str(e)))
 
     return {
