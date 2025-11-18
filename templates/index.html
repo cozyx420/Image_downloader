@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>ImageDownloader – Web GUI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>ImageDownloader</h1>
+      <p>Lade alle &lt;img&gt;-Bilder einer Webseite auf deinen Rechner.</p>
+    </header>
+
+    <main>
+      <form method="post" class="form">
+        <label for="url">Seiten-URL</label>
+        <input
+          type="url"
+          id="url"
+          name="url"
+          placeholder="https://example.com"
+          required
+          value="{{ form_values.url }}"
+        >
+
+        <label for="folder">Zielordner</label>
+        <input
+          type="text"
+          id="folder"
+          name="folder"
+          value="{{ form_values.folder }}"
+        >
+
+        <fieldset class="radio-group">
+          <legend>Namensschema</legend>
+          <label>
+            <input
+              type="radio"
+              name="naming_scheme"
+              value="original"
+              {% if form_values.naming_scheme == 'original' %}checked{% endif %}
+            >
+            Original-Dateinamen
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="naming_scheme"
+              value="slugged"
+              {% if form_values.naming_scheme == 'slugged' %}checked{% endif %}
+            >
+            SEITENNAME-001, -002, ...
+          </label>
+        </fieldset>
+
+        <button type="submit">Bilder herunterladen</button>
+      </form>
+
+      {% if message %}
+        <div class="alert success">{{ message }}</div>
+      {% endif %}
+
+      {% if error %}
+        <div class="alert error">{{ error }}</div>
+      {% endif %}
+
+      {% if details %}
+        <details class="details">
+          <summary>Fehlerdetails anzeigen</summary>
+          <ul>
+            {% for url, err in details %}
+              <li><code>{{ url }}</code> – {{ err }}</li>
+            {% endfor %}
+          </ul>
+        </details>
+      {% endif %}
+    </main>
+
+    <footer>
+      <small>Lokales Tool – bitte Urheberrechte der Webseiten respektieren.</small>
+    </footer>
+  </div>
+</body>
+</html>
